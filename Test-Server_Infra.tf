@@ -39,7 +39,7 @@ resource "aws_route_table" "test-rt" {
 
   route {
     ipv6_cidr_block = "::/0"
-    gateway_id = aws_internet_gateway.test-ig.i
+    gateway_id = aws_internet_gateway.test-ig.id
   }
 
   tags = {
