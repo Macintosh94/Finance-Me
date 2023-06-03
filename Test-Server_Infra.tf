@@ -7,14 +7,6 @@ terraform{
          }
 }
 
-locals {
-  vpc_id           = "vpc-09e7ff8aeb1ef8610"
-  subnet_id        = "subnet-0325f173ed2ce59ad"
-  ssh_user         = "ubuntu"
-  key_name         = "AWS_Key"
-  private_key_path = "/etc/ansible/AWS_Key.pem"
-}
-
 provider "aws" {
   region = "us-east-1"
   shared_config_files      = ["/var/lib/jenkins/config"]
@@ -28,23 +20,60 @@ resource "aws_instance" "test-server" {
   key_name                    = local.key_name
   tags = {
     Name = "Test-Server"
-  }
-
-  provisioner "remote-exec" {
-    inline = ["echo 'Wait until SSH is ready'"]
-
-    connection {
-      type        = "ssh"
-      user        = local.ssh_user
-      private_key = file(local.private_key_path)
-      host        = aws_instance.test-server.public_ip
     }
   }
-    
-  provisioner "local-exec" {
-    command = "ansible-playbook  -i ${aws_instance.test-server.public_ip}, --private-key ${local.private_key_path} /etc/ansible/test-deployment.yaml"
+
+  esource "aws_vpc" "test-vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "aws_internet_gateway" "test-ig" {
+  vpc_id = aws_vpc.test-vpc.id
+}
+
+resource "aws_route_table" "test-rt" {
+  vpc_id = aws_vpc.test-vpc.id
+  
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.test-ig.id
+  }
+
+  route {
+    ipv6_cidr_block = "::/0"
+    gateway_id = aws_internet_gateway.test-ig.id
+  }
+
+  tags = {
+    Name = "RT1" 
   }
 }
-output "test-server_ip" {
-  value = aws_instance.test-server.public_ip  
+
+resource "aws_subnet" "test-subnet" {
+   vpc_id = aws_vpc.test-vpc.id
+   cidr_block = "10.0.0.0/16"
+   availability_zone = "us-east-1c"
+
+   tags = {
+     Name = "Subnet1"
+
+   }
+}
+
+resource "aws_route_table_association" "test-rt-sub-association" {
+  subnet_id = aws_subnet.test-subnet.id
+  route_table_id = aws_route_table.test-rt.id
+}
+
+resource "aws_network_interface" "test-ni" {
+   subnet_id  = aws_subnet.test-subnet.id
+   private_ips = ["10.0.11.77"]
+   
+}
+
+resource "aws_eip" "test-eip"{
+
+  vpc  = true
+  network_interface = aws_network_interface.test-ni.id
+  associate_with_private_ip = "10.0.11.77"
 }
