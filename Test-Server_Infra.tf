@@ -91,11 +91,13 @@ resource  "null_resource"  "ssh3" {
 		mytest = timestamp()
 	}
 
+variable "ansible" {}
+
 	connection {
 	    type     = "ssh"
-	    user     = "ubuntu"
+	    user     = "ec2-user"
 	    private_key = "/home/ubuntu/AWS_Key.pem"
-	    host     = Jenkins_Serverr
+	    host     = var.ansible
 	  }
 
 	provisioner "remote-exec" {
