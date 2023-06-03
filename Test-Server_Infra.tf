@@ -34,7 +34,6 @@ resource "aws_instance" "test-server" {
     connection {
       type        = "ssh"
       user        = local.ssh_user
-      private_key = file(local.private_key_path)
       host        = aws_instance.test-server.public_ip
     }
   }
