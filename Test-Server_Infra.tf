@@ -116,6 +116,7 @@ resource "aws_security_group" "test-sg" {
 resource "aws_network_interface" "test-ni" {
    subnet_id  = aws_subnet.test-subnet.id
    private_ips = ["10.0.11.77"]
+   security_groups = [aws_security_group.test-sg.id]
    
 }
 
