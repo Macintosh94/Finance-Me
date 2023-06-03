@@ -79,7 +79,7 @@ resource "aws_instance" "test-server" {
 
 
   network_interface {
-  network_interface_id = aws_network_interface.test-ni.id
+  network_interface_id = aws_network_interface.test-ni1.id
   device_index = 0
   } 
 
