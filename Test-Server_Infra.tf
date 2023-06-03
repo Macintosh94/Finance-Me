@@ -17,8 +17,8 @@ locals {
 
 provider "aws" {
   region = "us-east-1"
-  access_key = "AWS_ACCESS_KEY_ID"
-  secret_key = "AWS_SECRET_ACCESS_KEY"
+  shared_config_files      = ["/Users/tf_user/.aws/conf"]
+  shared_credentials_files = ["/Users/tf_user/.aws/creds"]
 }
 
 resource "aws_instance" "test-server" {
@@ -41,4 +41,8 @@ resource "aws_instance" "test-server" {
   provisioner "local-exec" {
     command = "ansible-playbook  -i ${aws_instance.test-server.public_ip}, --private-key ${local.private_key_path} test-deployment.yaml"
   }
+}
+
+output "test-server_ip" {
+  value = aws_instance.test-server.public_ip  
 }
