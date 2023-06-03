@@ -18,6 +18,12 @@ resource "aws_instance" "test-server" {
   instance_type               = "t2.micro"
   associate_public_ip_address = true
   key_name                    = "AWS_Key"
+
+ network_interface {
+   network_interface_id = aws_network_interface.test-ni.id
+   device_index = 0
+ }
+
   tags = {
     Name = "Test-Server"
     }
