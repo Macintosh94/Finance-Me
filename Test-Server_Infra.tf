@@ -42,10 +42,11 @@ resource "aws_subnet" "test-subnet" {
      Name = "Subnet1"
 
    }
+}
 
 resource "aws_network_interface" "test-ni" {
    subnet_id  = aws_subnet.test-subnet.id
-   private_ips = {"10.0.11.77"}
+   private_ips = ["10.0.11.77"]
    
 }
 
