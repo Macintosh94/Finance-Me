@@ -17,6 +17,8 @@ locals {
 
 provider "aws" {
   region = "us-east-1"
+  access_key = "AKIATVOIMA34MRX6I4EK"
+  secret_key = "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"
 }
 
 resource "aws_instance" "test-server" {
