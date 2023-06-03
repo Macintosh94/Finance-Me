@@ -15,7 +15,6 @@ resource "aws_instance" "test-server" {
   subnet_id                   = "subnet-0325f173ed2ce59ad"
   instance_type               = "t2.micro"
   associate_public_ip_address = true
-  security_groups             = "default"
   key_name                    = local.key_name
 
   provisioner "remote-exec" {
