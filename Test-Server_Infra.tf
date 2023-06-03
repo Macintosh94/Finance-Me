@@ -7,6 +7,8 @@ terraform{
          }
 }
 
+variable "ansible" {}
+
 # Configure Providers
 
 provider "aws" {
@@ -90,8 +92,6 @@ resource  "null_resource"  "ssh3" {
 	triggers = {
 		mytest = timestamp()
 	}
-
-variable "ansible" {}
 
 	connection {
 	    type     = "ssh"
