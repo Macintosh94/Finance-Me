@@ -25,6 +25,28 @@ resource "aws_vpc" "test-vpc" {
   cidr_block = "10.0.0.0/16"
 }
 
+resource "aws_internet_gateway" "test-ig" {
+  vpc_id = aws_vpc.test-vpc.id
+}
+
+resource "aws_route_table" "test-rt" {
+  vpc_id = aws_vpc.test-vpc.id
+  
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.test-ig.id
+  }
+
+  route {
+    ipv6_cidr_block = "::/0"
+    gateway_id = aws_internet_gateway.test-ig.i
+  }
+
+  tags = {
+    Name = "RT1" 
+  }
+}
+
 resource "aws_subnet" "test-subnet" {
    vpc_id = aws_vpc.test-vpc.id
    cidr_block = "10.0.0.0/16"
@@ -34,6 +56,11 @@ resource "aws_subnet" "test-subnet" {
      Name = "Subnet1"
 
    }
+}
+
+resource "aws_route_table_association" "test-rt-sub.association" {
+  subnet_id = aws_subnet.test-subnet.id
+  route_table_id = aws_route_table.test-rt.id
 }
 
 resource "aws_network_interface" "test-ni" {
