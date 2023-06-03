@@ -7,8 +7,6 @@ terraform{
          }
 }
 
-variable "ansible" {}
-
 # Configure Providers
 
 provider "aws" {
