@@ -11,5 +11,11 @@ node {
 
       stage ('Terraform Apply') {
       sh 'terraform apply --auto-approve'
-      }  
+      } 
+      
+      stage ('Install Docker and running the container') {
+      echo 'Installing docker and running the container/s'
+      ansiblePlaybook become: true, credentialsId: 'ansible_cred', disableHostKeyChecking: true, installation: 'Ansible', inventory: '/etc/ansible/hosts', playbook: '/usr/bin/test-server-deployment.yml'
+      }
 }
+
