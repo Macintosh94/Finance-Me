@@ -17,8 +17,8 @@ locals {
 
 provider "aws" {
   region = "us-east-1"
-  shared_config_files      = ["home/ubuntu/.aws/config"]
-  shared_credentials_files = ["home/ubuntu/.aws/credentials"]
+  shared_config_files      = ["/home/ubuntu/.aws/config"]
+  shared_credentials_files = ["/home/ubuntu/.aws/credentials"]
 }
 
 resource "aws_instance" "test-server" {
