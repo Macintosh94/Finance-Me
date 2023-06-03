@@ -21,6 +21,10 @@ provider "aws" {
   shared_credentials_files = ["/var/lib/jenkins/credentials"]
 }
 
+resource "aws_vpc" "test-vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
 resource "aws_subnet" "test-subnet" {
    vpc_id = aws_vpc.test-subnet.id
    cidr_block = "10.0.0.0/16"
