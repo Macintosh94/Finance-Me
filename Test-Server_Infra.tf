@@ -95,7 +95,7 @@ resource  "null_resource"  "ssh3" {
 	    type     = "ssh"
 	    user     = "ubuntu"
 	    private_key = "/home/ubuntu/AWS_Key.pem"
-	    host     = var.ansible
+	    host     = Jenkins_Serverr
 	  }
 
 	provisioner "remote-exec" {
