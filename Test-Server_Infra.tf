@@ -1,3 +1,12 @@
+terraform{
+         required_providers {
+                 aws = {
+                         source = "hashicorp/aws"
+                         version = "~> 4.0"
+                 }
+         }
+}
+
 locals {
   vpc_id           = "vpc-09e7ff8aeb1ef8610"
   subnet_id        = "subnet-0325f173ed2ce59ad"
