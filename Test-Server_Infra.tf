@@ -68,6 +68,7 @@ resource "aws_eip" "test-eip"{
       host        = aws_instance.test-server.public_ip
     }
   }
+    
   provisioner "local-exec" {
     command = "ansible-playbook  -i ${aws_instance.test-server.public_ip}, --private-key ${local.private_key_path} /etc/ansible/test-deployment.yaml"
   }
