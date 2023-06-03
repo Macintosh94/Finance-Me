@@ -34,11 +34,12 @@ resource "aws_instance" "test-server" {
     connection {
       type        = "ssh"
       user        = local.ssh_user
+      private_key = file(local.private_key_path)
       host        = aws_instance.test-server.public_ip
     }
   }
   provisioner "local-exec" {
-    command = "ansible-playbook  -i ${aws_instance.test-server.public_ip},  /etc/ansible/test-deployment.yaml"
+    command = "ansible-playbook  -i ${aws_instance.test-server.public_ip}  /etc/ansible/test-deployment.yaml"
   }
 }
 
