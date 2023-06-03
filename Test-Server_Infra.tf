@@ -34,7 +34,7 @@ resource "aws_instance" "prod-server"{
         tags = {
         Name = "Prod-Server"
         }
-
+}
 resource "null_resource" "localinventorynull01" {
          triggers = {
                  mytest = timestamp()
