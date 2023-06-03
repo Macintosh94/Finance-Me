@@ -76,7 +76,7 @@ resource "null_resource" "mydynamicinventory" {
         }
 
         provisioner "local-exec" {
-            command = scp inventory ubuntu@54.89.174.78:/tmp/
+            command = "scp inventory ubuntu@54.89.174.78:/tmp/"
   
           }
         depends_on = [
