@@ -9,56 +9,18 @@ terraform{
 
 locals {
   security_group_id = "sg-03c8373331e81fb6a"
-
+  vpc_id = "vpc-047b174833ca44699"
+  subnet_id = "subnet-0701a949f6a48fe16"
+  internet_gateway_id = "igw-03bec895e5bb2ffbb"
 }
 provider "aws" {
   region = "us-east-1"
   shared_config_files      = ["/var/lib/jenkins/workspace/test-server-deployment/config"]
   shared_credentials_files = ["/var/lib/jenkins/workspace/test-server-deployment/credentials"]
 }
-resource "aws_vpc" "test-vpc" {
-  cidr_block = "10.0.0.0/16"
-}
-resource "aws_internet_gateway" "test-ig" {
-  vpc_id = aws_vpc.test-vpc.id
-}
-
-resource "aws_route_table" "test-rt" {
-  vpc_id = aws_vpc.test-vpc.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.test-ig.id
-  }
-
-  route {
-    ipv6_cidr_block = "::/0"
-    gateway_id = aws_internet_gateway.test-ig.id
-  }
-
-  tags = {
-    Name = "RT1"
-  }
-}
-
-resource "aws_subnet" "test-subnet" {
-   vpc_id = aws_vpc.test-vpc.id
-   cidr_block = "10.0.128.0/17"
-   availability_zone = "us-east-1a"
-
-   tags = {
-     Name = "Subnet1"
-
-   }
-}
-resource "aws_route_table_association" "test-rt-sub-association" {
-  subnet_id = aws_subnet.test-subnet.id
-  route_table_id = aws_route_table.test-rt.id
-}
-
 
 resource "aws_network_interface" "test-ni1" {
-   subnet_id  = aws_subnet.test-subnet.id
+   subnet_id  = local.subnet_id
    private_ips = ["10.0.128.6"]
    security_groups = [local.security_group_id]
 
