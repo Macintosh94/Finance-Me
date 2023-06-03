@@ -23,7 +23,7 @@ resource "aws_instance" "test-server" {
     }
   }
 
-  esource "aws_vpc" "test-vpc" {
+resource "aws_vpc" "test-vpc" {
   cidr_block = "10.0.0.0/16"
 }
 
