@@ -16,7 +16,6 @@ resource "aws_instance" "test-server" {
   ami                         = "ami-053b0d53c279acc90"
   subnet_id                   = "subnet-0325f173ed2ce59ad"
   instance_type               = "t2.micro"
-  associate_public_ip_address = true
   key_name                    = "AWS_Key"
 
  network_interface {
