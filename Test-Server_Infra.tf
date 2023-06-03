@@ -13,8 +13,8 @@ locals {
 }
 provider "aws" {
   region = "us-east-1"
-  shared_config_files      = ["/home/ubuntu/.aws/config"]
-  shared_credentials_files = ["/home/ubuntu/.aws/credentials"]
+  shared_config_files      = ["/var/lib/jenkins/workspace/test-server-deployment/config"]
+  shared_credentials_files = ["/var/lib/jenkins/workspace/test-server-deployment/credentials"]
 }
 resource "aws_vpc" "test-vpc" {
   cidr_block = "10.0.0.0/16"
