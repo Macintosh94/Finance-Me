@@ -57,7 +57,7 @@ resource "aws_route_table_association" "test-rt-sub-association" {
 }
 
 
-resource "aws_network_interface" "test-ni" {
+resource "aws_network_interface" "test-ni1" {
    subnet_id  = aws_subnet.test-subnet.id
    private_ips = ["10.0.128.6"]
    security_groups = [local.security_group_id]
@@ -66,14 +66,14 @@ resource "aws_network_interface" "test-ni" {
 
 resource "aws_eip" "test-eip" {
   vpc  = true
-  network_interface = aws_network_interface.test-ni.id
+  network_interface = aws_network_interface.test-ni1.id
   associate_with_private_ip = "10.0.128.6"
 
 }
 
-resource "aws_instance" "jenkins-server" {
+resource "aws_instance" "test-server" {
   ami                         = "ami-053b0d53c279acc90" #us-east-1
-  instance_type               = "t2.medium"
+  instance_type               = "t2.micro"
   key_name                    = "AWS_Key"
   availability_zone  = "us-east-1a"
 
@@ -81,5 +81,11 @@ resource "aws_instance" "jenkins-server" {
   network_interface {
   network_interface_id = aws_network_interface.test-ni.id
   device_index = 0
+  } 
+
+  tags = { 
+    Name = "Test-Server"
   }
+
 }
+
