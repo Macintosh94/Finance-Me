@@ -21,16 +21,6 @@ provider "aws" {
   shared_credentials_files = ["/var/lib/jenkins/credentials"]
 }
 
-resource "aws_instance" "test-server" {
-  ami                         = "ami-053b0d53c279acc90"
-  subnet_id                   = "subnet-0325f173ed2ce59ad"
-  instance_type               = "t2.micro"
-  associate_public_ip_address = true
-  key_name                    = local.key_name
-  tags = {
-    Name = "Test-Server"
-  }
-
 resource "aws_subnet" "test-subnet" {
    vpc_id = aws_vpc.test-subnet.id
    cidr_block = "10.0.0.0/16"
@@ -55,6 +45,15 @@ resource "aws_eip" "test-eip"{
   associate_with_private_ip = "10.0.11.77"
 
 }
+resource "aws_instance" "test-server" {
+  ami                         = "ami-053b0d53c279acc90"
+  subnet_id                   = "subnet-0325f173ed2ce59ad"
+  instance_type               = "t2.micro"
+  associate_public_ip_address = true
+  key_name                    = local.key_name
+  tags = {
+    Name = "Test-Server"
+  }
 
   provisioner "remote-exec" {
     inline = ["echo 'Wait until SSH is ready'"]
