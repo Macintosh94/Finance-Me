@@ -3,7 +3,7 @@ locals {
   subnet_id        = "subnet-0325f173ed2ce59ad"
   ssh_user         = "ubuntu"
   key_name         = "AWS_Key"
-  private_key_path = "/home/ubuntu/AWS_Key.pem"
+  private_key_path = "~/home/ubuntu/AWS_Key.pem"
 }
 
 provider "aws" {
@@ -15,7 +15,7 @@ resource "aws_instance" "test-server" {
   subnet_id                   = "subnet-0325f173ed2ce59ad"
   instance_type               = "t2.micro"
   associate_public_ip_address = true
-  security_groups             = "sg-0230fea44fc45815f"
+  security_groups             = "default"
   key_name                    = local.key_name
 
   provisioner "remote-exec" {
