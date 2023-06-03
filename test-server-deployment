@@ -1,0 +1,15 @@
+node {
+
+      stage ('Code checkout') {
+      echo "Checking for Terraform Configuration"
+      git'https://github.com/Macintosh94/Finance-Me.git'
+       }
+      
+      stage ('Terraform Init'){
+      sh 'terraform init'
+      }
+
+      stage ('Terraform Apply') {
+      sh 'terraform apply --auto-approve'
+      }  
+}
