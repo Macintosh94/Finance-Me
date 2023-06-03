@@ -3,7 +3,7 @@ locals {
   subnet_id        = "subnet-0325f173ed2ce59ad"
   ssh_user         = "ubuntu"
   key_name         = "AWS_Key"
-  private_key_path = "~/home/ubuntu/AWS_Key.pem"
+  private_key_path = "~/etc/ansible/AWS_Key.pem"
 }
 
 provider "aws" {
