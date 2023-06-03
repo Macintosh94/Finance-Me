@@ -83,6 +83,7 @@ resource "null_resource" "mydynamicinventory" {
                        
                         null_resource.localinventorynull02 , null_resource.localinventorynull01
                         ]
+}
 
 resource  "null_resource"  "ssh3" {
 
