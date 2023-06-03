@@ -29,14 +29,6 @@ resource "aws_instance" "test-server"{
         }
 }
 
-resource "aws_instance" "prod-server"{
-        ami = "ami-053b0d53c279acc90"
-        key_name = "AWS_Key"
-        instance_type = "t2.micro"
-        tags = {
-        Name = "Prod-Server"
-        }
-}
 resource "null_resource" "localinventorynull01" {
          triggers = {
                  mytest = timestamp()
@@ -54,22 +46,6 @@ resource "null_resource" "localinventorynull01" {
                           ]
           }
 
-resource "null_resource" "localinventorynull02" {
-         triggers = {
-                 mytest = timestamp()
-         }
-        
-         provisioner "local-exec" {
-             command = "echo ${aws_instance.prod-server.tags.Name} ansible_host=${aws_instance.prod-server.public_ip} ansible_user=ec2-user>> inventory"
-
-           }
-
- 
-         depends_on = [
-
-                          null_resource.localinventorynull01
-                          ]
-          }
 
 resource "null_resource" "mydynamicinventory" {
 
@@ -97,7 +73,7 @@ resource  "null_resource"  "ssh3" {
 	    type     = "ssh"
 	    user     = "ec2-user"
 	    private_key = "/home/ubuntu/AWS_Key.pem"
-	    host     = var.ansible
+	    host     = aws_instance.test-server
 	  }
 
 	provisioner "remote-exec" {
