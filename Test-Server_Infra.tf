@@ -39,7 +39,7 @@ resource "aws_instance" "test-server" {
     }
   }
   provisioner "local-exec" {
-    command = "ansible-playbook  -i ${aws_instance.test-server.public_ip}, --private-key ${local.private_key_path}, test-deployment.yaml"
+    command = "ansible-playbook  -i ${aws_instance.test-server.public_ip}, --private-key ${local.private_key_path} /etc/ansible/test-deployment.yaml"
   }
 }
 
