@@ -13,9 +13,17 @@ node {
       sh 'terraform apply --auto-approve'
       } 
       
-      stage ('Install Docker and running the container') {
-      echo 'Installing docker and running the container/s'
-      ansiblePlaybook become: true, credentialsId: 'ansible_cred', disableHostKeyChecking: true, installation: 'Ansible', inventory: '/etc/ansible/hosts', playbook: '/usr/bin/test-server-deployment.yml'
-      }
+      stage ("wait_prior_testing") {
+      echo 'Waiting 5 minutes for deployment to complete prior testing'
+      sleep 60 // seconds
 }
-
+      
+      stage ('Terraform Destroy') {
+     sh 'terraform destroy --auto-approve'
+     }
+      
+     // stage ('Install Docker and running the container') {
+     // echo 'Installing docker and running the container/s'
+     // ansiblePlaybook become: true, credentialsId: 'ansible_cred', disableHostKeyChecking: true, installation: 'Ansible', inventory: '/etc/ansible/hosts', playbook: '/usr/bin/test-server-deployment.yml'
+     // }
+}
